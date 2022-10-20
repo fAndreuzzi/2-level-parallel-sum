@@ -17,24 +17,23 @@ int main(int argc, char **argv) {
   int r;
   MPI_Comm_size(MPI_COMM_WORLD, &r);
 
+  // keeps track of input errors
   int status = 0;
 
+  // Communication happens via MPI_Scatter, the main process communicates a
+  // pair of row indices to each child process.
+  // The pair of indices is used also for reporting input errors to child
+  // processes.
   while (true) {
     std::unique_ptr<int[]> send_buffer = nullptr;
-    std::unique_ptr<int[]> recv_buffer = std::unique_ptr<int[]>(new int[2]);
-
     if (rank == 0) {
       std::smatch match;
       std::string user_input;
       std::getline(std::cin, user_input);
       if (regex_search(user_input, match, extract_rows)) {
-        std::cout << match.str(1) << ", " << match.str(2) << std::endl;
-
-        int *send_buffer_data = new int[2 * r];
-        for (int i = 0; i < 2 * r; ++i) {
-          send_buffer_data[i] = 0;
-        }
-        send_buffer = std::unique_ptr<int[]>(send_buffer_data);
+        int x = std::stoi(match.str(1));
+        int y = std::stoi(match.str(2));
+        send_buffer = prepare_pairs(r, x, y);
       } else {
         bool error = user_input != "quit";
         if (error) {
@@ -44,6 +43,7 @@ int main(int argc, char **argv) {
       }
     }
 
+    std::unique_ptr<int[]> recv_buffer = std::unique_ptr<int[]>(new int[2]);
     MPI_Scatter(send_buffer.get(), 2, MPI_INT, recv_buffer.get(), 2, MPI_INT, 0,
                 MPI_COMM_WORLD);
     status = recv_buffer[0];
