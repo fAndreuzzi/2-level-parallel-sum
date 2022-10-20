@@ -36,3 +36,13 @@ std::unique_ptr<int[]> stop_array(int r, bool graceful);
  * @return std::unique_ptr<int[]>
  */
 std::unique_ptr<int[]> prepare_pairs(int r, std::size_t x, std::size_t y);
+
+/**
+ * @brief Check that the given rows make sense.
+ *
+ * @param r Number of MPI processes.
+ * @param x Lower bound.
+ * @param y Upper bound.
+ * @return bool
+ */
+bool check_rows(int r, std::size_t x, std::size_t y);

@@ -29,11 +29,17 @@ int main(int argc, char **argv) {
     if (rank == 0) {
       std::smatch match;
       std::string user_input;
+
       std::getline(std::cin, user_input);
       if (regex_search(user_input, match, extract_rows)) {
         std::size_t x = std::stoi(match.str(1));
         std::size_t y = std::stoi(match.str(2));
-        send_buffer = prepare_pairs(r, x, y);
+        if (!check_rows(r, x, y)) {
+          std::cerr << "Invalid rows" << std::endl;
+          send_buffer = stop_array(r, false);
+        } else {
+          send_buffer = prepare_pairs(r, x, y);
+        }
       } else {
         bool error = user_input != "quit";
         if (error) {
