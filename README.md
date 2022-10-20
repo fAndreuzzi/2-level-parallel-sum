@@ -1,4 +1,4 @@
-# Large-scale parallel algebra simulation
+# 2-level large-scale Sum
 
 In general, this small program should simulate algebra on data, which doesn't
 fit into memory on one rank, but can be split and every part would fit into
