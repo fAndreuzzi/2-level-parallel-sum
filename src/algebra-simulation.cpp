@@ -1,14 +1,12 @@
+#include "utils.hpp"
 #include <iostream>
 #include <memory>
 #include <mpi.h>
 #include <regex>
 #include <string>
 
+// regex used to extract row indices from user input
 const std::regex extract_rows = std::regex("sum \\[(\\d+),(\\d+)\\]");
-constexpr int GRACEFUL_STOP = -1;
-constexpr int ERROR_STOP = -2;
-
-std::unique_ptr<int[]> stop_array(int r, bool graceful);
 
 int main(int argc, char **argv) {
   MPI_Init(&argc, &argv);
@@ -64,12 +62,4 @@ int main(int argc, char **argv) {
   } else {
     return 0;
   }
-}
-
-std::unique_ptr<int[]> stop_array(int r, bool graceful) {
-  int *array = new int[2 * r];
-  for (int i = 0; i < 2 * r; ++i) {
-    array[i] = graceful ? GRACEFUL_STOP : ERROR_STOP;
-  }
-  return std::unique_ptr<int[]>(array);
 }
