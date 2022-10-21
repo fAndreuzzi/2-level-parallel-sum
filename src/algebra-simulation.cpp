@@ -1,4 +1,5 @@
 #include "data.hpp"
+#include "summation.hpp"
 #include "utils.hpp"
 #include <iostream>
 #include <memory>
@@ -60,8 +61,16 @@ int main(int argc, char **argv) {
       break;
     }
 
-    std::cout << recv_buffer[0] << ", " << recv_buffer[1] << " (" << rank << ")"
-              << std::endl;
+    double *start = process_dataset.get() + recv_buffer[0] * M;
+    double process_result =
+        sum_rows(start, recv_buffer[1] - recv_buffer[0], M);
+
+    double result;
+    MPI_Reduce(&process_result, &result, 1, MPI_DOUBLE, MPI_SUM, 0,
+               MPI_COMM_WORLD);
+    if (rank == 0) {
+      std::cout << "Result is " << result << std::endl;
+    }
   }
 
   MPI_Finalize();
