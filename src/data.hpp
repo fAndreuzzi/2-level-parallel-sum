@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <cstddef>
 
 #ifndef DATA_GENERATION_NTHREADS
 #define DATA_GENERATION_NTHREADS 4

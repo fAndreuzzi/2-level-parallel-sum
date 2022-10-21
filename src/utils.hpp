@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <cstddef>
 
 // stop triggered by "quit" input
 constexpr int GRACEFUL_STOP = -1;
