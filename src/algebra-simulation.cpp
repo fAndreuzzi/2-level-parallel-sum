@@ -1,3 +1,4 @@
+#include "data.hpp"
 #include "utils.hpp"
 #include <iostream>
 #include <memory>
@@ -19,6 +20,8 @@ int main(int argc, char **argv) {
 
   // keeps track of input errors
   int status = 0;
+
+  dataset process_dataset = generate_data(N, M);
 
   // Communication happens via MPI_Scatter, the main process communicates a
   // pair of row indices to each child process.

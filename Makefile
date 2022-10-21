@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := compile
 
-SRC = src/utils.cpp src/algebra-simulation.cpp
+SRC = src/data.cpp src/utils.cpp src/algebra-simulation.cpp
 OUT = algebra-simulation
 
 memory:
