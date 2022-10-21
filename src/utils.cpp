@@ -1,5 +1,4 @@
 #include "utils.hpp"
-#include <iostream>
 
 std::unique_ptr<int[]> stop_array(int r, bool graceful) {
   int *array = new int[2 * r];
