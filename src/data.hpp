@@ -2,9 +2,8 @@
 
 #include <memory>
 
-// number of rows per MPI process
-#ifndef NTHREADS
-#define NTHREADS 4
+#ifndef DATA_GENERATION_NTHREADS
+#define DATA_GENERATION_NTHREADS 4
 #endif
 
 using dataset = std::unique_ptr<double[]>;

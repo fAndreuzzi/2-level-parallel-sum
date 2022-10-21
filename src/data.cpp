@@ -22,11 +22,11 @@ void fill_data(double *data, std::size_t nrows, std::size_t ncols,
 
 dataset generate_data(std::size_t nrows, std::size_t ncols) {
   double *data = new double[nrows * ncols];
-  std::size_t nrows_per_thread = nrows / NTHREADS;
+  std::size_t nrows_per_thread = nrows / DATA_GENERATION_NTHREADS;
   std::size_t offset = 0;
-  std::future<void> futures[NTHREADS];
+  std::future<void> futures[DATA_GENERATION_NTHREADS];
   if (nrows_per_thread > 0) {
-    for (int i = 0; i < NTHREADS; ++i) {
+    for (int i = 0; i < DATA_GENERATION_NTHREADS; ++i) {
       futures[i] =
           std::async(std::launch::async, fill_data, data + offset * ncols,
                      nrows_per_thread, ncols, offset % 2 == 1);
@@ -34,7 +34,8 @@ dataset generate_data(std::size_t nrows, std::size_t ncols) {
     }
   }
 
-  fill_data(data + offset * ncols, nrows % NTHREADS, ncols, offset % 2 == 1);
+  fill_data(data + offset * ncols, nrows % DATA_GENERATION_NTHREADS, ncols,
+            offset % 2 == 1);
   if (nrows_per_thread > 0) {
     for (auto &&future : futures) {
       future.wait();
