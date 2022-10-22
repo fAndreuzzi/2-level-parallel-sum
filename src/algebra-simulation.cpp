@@ -62,8 +62,7 @@ int main(int argc, char **argv) {
     }
 
     double *start = process_dataset.get() + recv_buffer[0] * M;
-    double process_result =
-        sum_rows(start, recv_buffer[1] - recv_buffer[0], M);
+    double process_result = sum_rows(start, recv_buffer[1] - recv_buffer[0], M);
 
     double result;
     MPI_Reduce(&process_result, &result, 1, MPI_DOUBLE, MPI_SUM, 0,

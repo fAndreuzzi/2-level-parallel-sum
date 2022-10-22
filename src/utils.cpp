@@ -19,10 +19,10 @@ std::unique_ptr<int[]> prepare_pairs(int r, std::size_t x, std::size_t y) {
 
   send_buffer_data[2 * i] = x % N;
   for (; (i + 1) * N < y + 1; ++i) {
-    send_buffer_data[2 * i + 1] = N - 1;
+    send_buffer_data[2 * i + 1] = N;
     send_buffer_data[2 * (i + 1)] = 0;
   }
-  send_buffer_data[2 * i + 1] = y % N;
+  send_buffer_data[2 * i + 1] = y % N + 1;
 
   for (++i; i < r; ++i) {
     send_buffer_data[2 * i] = 0;
