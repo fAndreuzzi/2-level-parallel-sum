@@ -8,7 +8,7 @@
 #include <string>
 
 // regex used to extract row indices from user input
-const std::regex extract_rows = std::regex("sum \\[(\\d+),(\\d+)\\]");
+const std::regex extract_rows = std::regex("sum \\[(\\d+),\\s*(\\d+)\\]");
 
 int main(int argc, char **argv) {
   MPI_Init(&argc, &argv);
